@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/my_opium_app/META"
+  "_build/install/default/lib/my_opium_app/dune-package"
+  "_build/install/default/lib/my_opium_app/opam"
+]
+bin: [
+  "_build/install/default/bin/my_app"
+]

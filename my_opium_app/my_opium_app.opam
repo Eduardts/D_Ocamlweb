@@ -1,0 +1,19 @@
+opam-version: "2.0"
+name: "my_opium_app"
+version: "0.1"
+synopsis: "A simple Opium web application"
+description: """
+This is a simple Opium web application that responds with "Hello, World!" on the root URL.
+"""
+authors: ["Your Name <your.email@example.com>"]  # Update to your details
+license: "MIT"
+homepage: "https://your_project_homepage"  # Your homepage
+bug-reports: "https://your_project_issue_tracker"  # Where users can report bugs
+maintainers: ["Your Name <your.email@example.com>"]  # Required field
+
+depends: [
+  "opium" {>= "0.20.0"}  # Ensure you use a compatible version
+  "lwt" {>= "5.9.0"}
+  "cohttp" {>= "6.0.0"}  # Ensure this matches your installed version
+]
+
