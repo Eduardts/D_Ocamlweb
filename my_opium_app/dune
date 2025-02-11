@@ -2,3 +2,8 @@
  (name main)
  (public_name my_app)
  (libraries opium lwt cohttp)) 
+
+(* dune-project *)
+(* lang dune 2.0 *)
+(* name iam_verifier *)
+(* version 0.1.0 *)

@@ -56,3 +56,40 @@ let () =
 with static/index.html
 
 *)
+open Opium
+open Lwt.Syntax
+
+let json_of_verification_result = function
+  | Valid -> `Assoc [("status", `String "valid")]
+  | Invalid msg -> `Assoc [
+      ("status", `String "invalid");
+      ("message", `String msg)
+    ]
+  | Error msg -> `Assoc [
+      ("status", `String "error");
+      ("message", `String msg)
+    ]
+
+let verify_policy_handler req =
+  let* json = Request.to_json_exn req in
+  let policy = policy_of_json json in
+  let result = PolicyVerifier.verify_permission_consistency policy in
+  let result = match result with
+    | Valid -> PolicyVerifier.verify_mutual_exclusion policy
+    | _ -> result
+  in
+  Response.of_json (json_of_verification_result result)
+  |> Lwt.return
+
+let verify_crypto_handler req =
+  let* json = Request.to_json_exn req in
+  let protocol = protocol_of_json json in
+  let result = CryptoVerifier.verify_protocol protocol in
+  Response.of_json (json_of_verification_result result)
+  |> Lwt.return
+
+let () =
+  App.empty
+  |> App.post "/verify/policy" verify_policy_handler
+  |> App.post "/verify/crypto" verify_crypto_handler
+  |> App.run_command
